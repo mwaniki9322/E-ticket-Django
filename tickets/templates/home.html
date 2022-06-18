@@ -1,0 +1,51 @@
+{% extends 'base.html'%}
+{%load static%}
+{%block content%}
+
+<!-- ========================= SECTION MAIN ========================= -->
+<section class="section-intro padding-y-sm">
+<div class="container">
+
+<div class="intro-banner-wrap">
+	<img src="{% static 'images/banners/31.jpg' %}" class="img-fluid rounded">
+</div>
+<hr>
+
+</div> <!-- container //  -->
+</section>
+<!-- ========================= SECTION MAIN END// ========================= -->
+
+<!-- ========================= SECTION  ========================= -->
+<section class="section-name padding-y-sm">
+<div class="container">
+
+<header class="section-heading">
+	<a href="{%url 'store'%}" class="btn btn-outline-primary float-right">See all</a>
+	<h3 class="section-title">Popular events</h3>
+</header><!-- sect-heading -->
+
+
+<div class="row" style="margin-bottom: 20px;">
+	{%for event in events%}
+	<div class="col-md-4" style="margin-top: 20px;">
+		<a href="{{event.get_url}}" class="img-wrap"> <img src="{{event.event_image.url}}" height="250px" width="250px"> </a>
+				<a href="{{event.get_url}}" class="title" style="font-weight: bold;">{{event.event_name}}</a>
+				<div class="price mt-1">Ksh {{event.event_price}}</div> <!-- price-wrap.// -->
+
+	</div> <!-- col.// -->	
+	{%endfor%}
+</div> <!-- row.// -->
+
+</div><!-- container // -->
+</section>
+<!-- ========================= SECTION  END// ========================= -->
+
+
+
+
+
+
+</body>
+</html>
+
+{% endblock %}
