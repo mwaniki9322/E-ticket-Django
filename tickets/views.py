@@ -6,7 +6,7 @@ from store.models import Event
 # Create your views here.
 
 def home(request):
-    events=Event.objects.all()
+    events=Event.objects.all()[:6]
 
     context={
         'events':events

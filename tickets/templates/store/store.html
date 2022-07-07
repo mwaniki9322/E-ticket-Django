@@ -3,8 +3,12 @@
 {%block content%}
 <section class="section-pagetop bg">
     <div class="container">
+        {% if 'search' in request.path%}
+        <h2 class="title-page">Results</h2>
+        <!---->
+        {%else%}
         <h2 class="title-page">EVENTS</h2>
-        
+        {%endif%}
     </div> <!-- container //  -->
 </section>
 
@@ -36,7 +40,7 @@
                 </div> <!-- card-body.// -->
             </div>
         </article> <!-- filter-group  .// -->
-        <article class="filter-group">
+        <!-- <article class="filter-group">
             <header class="card-header">
                 <a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true" class="">
                     <i class="icon-control fa fa-chevron-down"></i>
@@ -64,11 +68,11 @@
                     <input type="checkbox">
                     <span class="btn btn-light"> XXL </span>
                   </label>
-            </div><!-- card-body.// -->
+            </div>card-body.//
             </div>
-        </article> <!-- filter-group .// -->
+        </article> filter-group .// -->
         
-        <article class="filter-group">
+        <!-- <article class="filter-group">
             <header class="card-header">
                 <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
                     <i class="icon-control fa fa-chevron-down"></i>
@@ -81,7 +85,7 @@
                     <div class="form-row">
                     <div class="form-group col-md-6">
                       <label>Min</label>
-                      <!-- <input class="form-control" placeholder="$0" type="number"> -->
+                       <input class="form-control" placeholder="$0" type="number">
                           <select class="mr-2 form-control">
                             <option value="0">$0</option>
                             <option value="50">$50</option>
@@ -104,11 +108,11 @@
                             <option value="2000">$2000+</option>
                         </select>
                     </div>
-                    </div> <!-- form-row.// -->
+                    </div> 
                     <button class="btn btn-block btn-primary">Apply</button>
-                </div><!-- card-body.// -->
+                </div>
             </div>
-        </article> <!-- filter-group .// -->
+        </article>-->
         
     </div> <!-- card.// -->
     
@@ -123,6 +127,7 @@
     </header><!-- sect-heading -->
     
     <div class="row">
+        {%if events%}
         {%for event in events%}
         <div class="col-md-4" style="height: 420px;width: 350px;">
                 <div class="img-wrap"> 
@@ -137,23 +142,43 @@
                             <span class="price">Ksh {{event.event_price}}</span>
                         </div> <!-- price-wrap.// -->
                     </div>
-                    <a href="#" class="btn btn-block btn-primary">Add to cart </a>
+                    <a href="{{event.get_url}}" class="btn btn-block btn-primary">View Details </a>
                 </figcaption>
             </figure>
         </div> <!-- col.// -->
     {%endfor%}
+    {%else%}
+    <h2>No Events Found</h2>
+    {%endif%}
         
     </div> <!-- row end.// -->
     
     
     <nav class="mt-4" aria-label="Page navigation sample">
+        {% if events.has_other_pages %}
       <ul class="pagination">
-        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          {%if events.has_previous%}
+        <li class="page-item"><a class="page-link" href="?page={{events.previous_page_number}}">Previous</a></li>
+        {%else%}
+        <li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
+        {%endif%}
+
+        {%for i in events.paginator.page_range%}
+        {%if events.number == i%}
+        <li class="page-item"><a class="page-link" href="#">{{i}}</a></li>
+        {%else%}
+        <li class="page-item active"><a class="page-link" href="?page={{i}}" style="text-decoration: none;">{{i}}</a></li>
+        {%endif%}
+        {%endfor%}
+
+        {%if events.has_next%}
+        <li class="page-item"><a class="page-link" href="?page={{events.next_page_number}}">Next</a></li>
+        {%else%}
+        <li class="page-item disabled"><a class="page-link" href="">Next</a></li>
+        {%endif%}
+        
       </ul>
+      {%endif%}
     </nav>
     
         </main> <!-- col.// -->
